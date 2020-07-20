@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.1"
-      jupytext_version: 1.1.7
+      format_version: '1.2'
+      jupytext_version: 1.3.2
   kernelspec:
     display_name: Python 3
     language: python
@@ -20,9 +20,9 @@ jupyter:
     name: python
     nbconvert_exporter: python
     pygments_lexer: ipython3
-    version: 3.6.5
+    version: 3.7.3
   plotly:
-    description: How to manipulate the graph size in Python with Plotly.
+    description: How to manipulate the graph size, margins and background color.
     display_as: file_settings
     language: python
     layout: base
@@ -33,6 +33,8 @@ jupyter:
 ---
 
 ### Adjusting Height, Width, & Margins with Plotly Express
+
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
 
 ```python
 import plotly.express as px
@@ -49,7 +51,9 @@ fig.update_layout(
 fig.show()
 ```
 
-### Adjusting Height, Width, & Margins
+### Adjusting Height, Width, & Margins With Graph Objects
+
+[Graph objects](/python/graph-objects/) are the low-level building blocks of figures which you can use instead of Plotly Express for greater control.
 
 ```python
 import plotly.graph_objects as go
@@ -65,7 +69,7 @@ fig.update_layout(
     autosize=False,
     width=500,
     height=500,
-    margin=go.layout.Margin(
+    margin=dict(
         l=50,
         r=50,
         b=100,
@@ -80,7 +84,7 @@ fig.show()
 
 ### Automatically Adjust Margins
 
-Set [automargin](https://plot.ly/python/reference/#layout-xaxis-automargin) to `True` and Plotly will automatically increase the margin size to prevent ticklabels from being cut off or overlapping with axis titles.
+Set [automargin](https://plotly.com/python/reference/#layout-xaxis-automargin) to `True` and Plotly will automatically increase the margin size to prevent ticklabels from being cut off or overlapping with axis titles.
 
 ```python
 import plotly.graph_objects as go
@@ -97,7 +101,7 @@ fig.update_layout(
     autosize=False,
     width=500,
     height=500,
-    yaxis=go.layout.YAxis(
+    yaxis=dict(
         title_text="Y-axis Title",
         ticktext=["Very long label", "long label", "3", "label"],
         tickvals=[1, 2, 3, 4],
@@ -113,4 +117,4 @@ fig.show()
 
 #### Reference
 
-See https://plot.ly/python/reference/#layout for more information and chart attribute options!
+See https://plotly.com/python/reference/#layout for more information and chart attribute options!

@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.1"
-      jupytext_version: 1.1.1
+      format_version: '1.2'
+      jupytext_version: 1.3.0
   kernelspec:
     display_name: Python 3
     language: python
@@ -20,7 +20,7 @@ jupyter:
     name: python
     nbconvert_exporter: python
     pygments_lexer: ipython3
-    version: 3.6.8
+    version: 3.7.3
   plotly:
     description: How to make Bar Charts in Python with Plotly.
     display_as: basic
@@ -35,7 +35,7 @@ jupyter:
 
 ### Bar chart with Plotly Express
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on "tidy" data](/python/px-arguments/).
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
 
 With `px.bar`, each row of the DataFrame is represented as a rectangular mark.
 
@@ -50,7 +50,7 @@ fig.show()
 data_canada
 ```
 
-### Customize bar chart with Plotly Express
+### Customize bar chart with Plotly Express
 
 The bar plot can be customized using keyword arguments.
 
@@ -99,7 +99,7 @@ To learn more, see the _link to px.bar reference page_.
 
 #### Basic Bar Chart with plotly.graph_objects
 
-If Plotly Express does not provide a good starting point, it is also possible to use the more generic `go.Bar` function from `plotly.graph_objects`.
+If Plotly Express does not provide a good starting point, it is also possible to use [the more generic `go.Bar` class from `plotly.graph_objects`](/python/graph-objects/).
 
 ```python
 import plotly.graph_objects as go
@@ -121,7 +121,7 @@ fig = go.Figure(data=[
     go.Bar(name='SF Zoo', x=animals, y=[20, 14, 23]),
     go.Bar(name='LA Zoo', x=animals, y=[12, 18, 29])
 ])
-# Change the bar mode
+# Change the bar mode
 fig.update_layout(barmode='group')
 fig.show()
 ```
@@ -177,6 +177,20 @@ fig = go.Figure(data=[go.Bar(
 fig.show()
 ```
 
+### Controlling text fontsize with uniformtext
+
+If you want all the text labels to have the same size, you can use the `uniformtext` layout parameter. The `minsize` attribute sets the font size, and the `mode` attribute sets what happens for labels which cannot fit with the desired fontsize: either `hide` them or `show` them with overflow. In the example below we also force the text to be outside of bars with `textposition`.
+
+```python
+import plotly.express as px
+
+df = px.data.gapminder().query("continent == 'Europe' and year == 2007 and pop > 2.e6")
+fig = px.bar(df, y='pop', x='country', text='pop')
+fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+fig.update_layout(uniformtext_minsize=8, uniformtext_mode='hide')
+fig.show()
+```
+
 ### Rotated Bar Chart Labels
 
 ```python
@@ -199,7 +213,7 @@ fig.add_trace(go.Bar(
     marker_color='lightsalmon'
 ))
 
-# Here we modify the tickangle of the xaxis, resulting in rotated labels.
+# Here we modify the tickangle of the xaxis, resulting in rotated labels.
 fig.update_layout(barmode='group', xaxis_tickangle=-45)
 fig.show()
 ```
@@ -322,7 +336,7 @@ fig.show()
 
 ### Bar Chart with Sorted or Ordered Categories
 
-Set `categoryorder` to `"category ascending"` or `"category descending"` for the alphanumerical order of the category names or `"total ascending"` or `"total descending"` for numerical order of values. [categoryorder](https://plot.ly/python/reference/#layout-xaxis-categoryorder) for more information. Note that sorting the bars by a particular trace isn't possible right now - it's only possible to sort by the total values. Of course, you can always sort your data _before_ plotting it if you need more customization.
+Set `categoryorder` to `"category ascending"` or `"category descending"` for the alphanumerical order of the category names or `"total ascending"` or `"total descending"` for numerical order of values. [categoryorder](https://plotly.com/python/reference/#layout-xaxis-categoryorder) for more information. Note that sorting the bars by a particular trace isn't possible right now - it's only possible to sort by the total values. Of course, you can always sort your data _before_ plotting it if you need more customization.
 
 This example orders the bar chart alphabetically with `categoryorder: 'category ascending'`
 
@@ -368,23 +382,8 @@ fig.show()
 
 ### Horizontal Bar Charts
 
-See examples of horizontal bar charts [here](https://plot.ly/python/horizontal-bar-charts/).
-
-### Dash Example
-
-[Dash](https://plot.ly/products/dash/) is an Open Source Python library which can help you convert plotly figures into a reactive, web-based application. Below is a simple example of a dashboard created using Dash. Its [source code](https://github.com/plotly/simple-example-chart-apps/tree/master/dash-barplot) is also show below and can easily be deployed to a PaaS (platform as a service).
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-barplot/", width="100%", height="650px", frameBorder="0")
-
-```
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-barplot/code", width="80%", height=500, frameBorder="0")
-```
+See examples of horizontal bar charts [here](https://plotly.com/python/horizontal-bar-charts/).
 
 ### Reference
 
-See https://plot.ly/python/reference/#bar for more information and chart attribute options!
+See https://plotly.com/python/reference/#bar for more information and chart attribute options!

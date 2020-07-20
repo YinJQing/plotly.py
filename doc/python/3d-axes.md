@@ -39,7 +39,7 @@ jupyter:
 attributes such as `xaxis`, `yaxis` and `zaxis` parameters, in order to
 set the range, title, ticks, color etc. of the axes.
 
-For creating 3D charts, see [this page](https://plot.ly/python/3d-charts/).
+For creating 3D charts, see [this page](https://plotly.com/python/3d-charts/).
 
 ```python
 import plotly.graph_objects as go
@@ -55,12 +55,13 @@ fig = go.Figure(data=[go.Mesh3d(x=(70*np.random.randn(N)),
                    color='rgba(244,22,100,0.6)'
                   )])
 
-fig.update_layout(scene = dict(
+fig.update_layout(
+    scene = dict(
         xaxis = dict(nticks=4, range=[-100,100],),
                      yaxis = dict(nticks=4, range=[-50,100],),
                      zaxis = dict(nticks=4, range=[-100,100],),),
-                     width=700,
-                     margin=dict(r=20, l=10, b=10, t=10))
+    width=700,
+    margin=dict(r=20, l=10, b=10, t=10))
 
 fig.show()
 ```
@@ -140,7 +141,7 @@ fig.show()
 import plotly.graph_objects as go
 import numpy as np
 
-# Define random surface
+# Define random surface
 N = 50
 fig = go.Figure(data=[go.Mesh3d(x=(60*np.random.randn(N)),
                    y=(25*np.random.randn(N)),
@@ -149,7 +150,7 @@ fig = go.Figure(data=[go.Mesh3d(x=(60*np.random.randn(N)),
                    color='rgba(100,22,200,0.5)'
                   )])
 
-# Different types of customized ticks
+# Different types of customized ticks
 fig.update_layout(scene = dict(
                     xaxis = dict(
                         ticktext= ['TICKS','MESH','PLOTLY','PYTHON'],
@@ -183,7 +184,7 @@ fig = go.Figure(data=[go.Mesh3d(x=(30*np.random.randn(N)),
                    opacity=0.5,)])
 
 
-# xaxis.backgroundcolor is used to set background color
+# xaxis.backgroundcolor is used to set background color
 fig.update_layout(scene = dict(
                     xaxis = dict(
                          backgroundcolor="rgb(200, 200, 230)",

@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.1'
-      jupytext_version: 1.2.3
+      format_version: '1.2'
+      jupytext_version: 1.3.0
   kernelspec:
     display_name: Python 3
     language: python
@@ -27,12 +27,11 @@ jupyter:
     language: python
     layout: base
     name: 3D Streamtube Plots
-    order: 14
+    order: 13
     page_type: u-guide
     permalink: python/streamtube-plot/
     thumbnail: thumbnail/streamtube.jpg
 ---
-
 
 ### Introduction
 
@@ -110,9 +109,9 @@ from plotly.subplots import make_subplots
 import numpy as np
 
 x, y, z = np.mgrid[0:10, 0:10, 0:10]
-x = x.T.flatten()
-y = y.T.flatten()
-z = z.T.flatten()
+x = x.flatten()
+y = y.flatten()
+z = z.flatten()
 
 u = np.zeros_like(x)
 v = np.zeros_like(y)
@@ -131,5 +130,4 @@ fig.show()
 ```
 
 #### Reference
-See https://plot.ly/python/reference/#streamtube for more information and chart attribute options!
-
+See https://plotly.com/python/reference/#streamtube for more information and chart attribute options!

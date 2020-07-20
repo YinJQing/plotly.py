@@ -1,7 +1,7 @@
 """
 Sequential color scales are appropriate for most continuous data, but in some cases it \
-can be helpful to use a `plotly_express.colors.diverging` or \
-`plotly_express.colors.cyclical` scale instead. The color scales in this module are \
+can be helpful to use a `plotly.colors.diverging` or \
+`plotly.colors.cyclical` scale instead. The color scales in this module are \
 mostly meant to be passed in as the `color_continuous_scale` argument to various functions.
 """
 
@@ -162,3 +162,6 @@ for _k, _cols in _contents.items():
     if _k.startswith("_") or _k == "swatches" or _k.endswith("_r"):
         continue
     globals()[_k + "_r"] = _cols[::-1]
+
+
+__all__ = ["swatches"]

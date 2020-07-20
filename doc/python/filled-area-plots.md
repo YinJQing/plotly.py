@@ -5,7 +5,7 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.1"
+      format_version: '1.1'
       jupytext_version: 1.1.1
   kernelspec:
     display_name: Python 3
@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: Filled Area Plots
-    order: 8
+    order: 7
     page_type: u-guide
     permalink: python/filled-area-plots/
     thumbnail: thumbnail/area.jpg
@@ -37,7 +37,7 @@ This example shows how to fill the area enclosed by traces.
 
 ## Filled area plot with plotly.express
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on "tidy" data](/python/px-arguments/).
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
 
 `px.area` creates a stacked area plot. Each filled area corresponds to one value of the column given by the `line_group` parameter.
 
@@ -70,7 +70,7 @@ import plotly.graph_objects as go
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=[1, 2, 3, 4], y=[0, 2, 3, 5], fill='tozeroy',
-                    mode='none' # override default markers+lines
+                    mode='none' # override default markers+lines
                     ))
 fig.add_trace(go.Scatter(x=[1, 2, 3, 4], y=[3, 5, 1, 7], fill='tonexty',
                     mode= 'none'))
@@ -92,7 +92,7 @@ fig.add_trace(go.Scatter(x=[1, 2, 3, 4], y=[3, 4, 8, 3],
 fig.add_trace(go.Scatter(
     x=[1, 2, 3, 4],
     y=[1, 6, 2, 6],
-    fill='tonexty', # fill area between trace0 and trace1
+    fill='tonexty', # fill area between trace0 and trace1
     mode='lines', line_color='indigo'))
 
 fig.show()
@@ -210,6 +210,6 @@ fig.show()
 
 #### Reference
 
-See https://plot.ly/python/reference/#scatter-line
-and https://plot.ly/python/reference/#scatter-fill
+See https://plotly.com/python/reference/#scatter-line
+and https://plotly.com/python/reference/#scatter-fill
 for more information and attribute options!

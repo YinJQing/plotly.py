@@ -76,7 +76,7 @@ fig.show()
 #### Surface Plot With Contours
 
 
-Display and customize contour data for each axis using the `contours` attribute ([reference](plot.ly/python/reference/#surface-contours)).
+Display and customize contour data for each axis using the `contours` attribute ([reference](plotly.com/python/reference/#surface-contours)).
 
 ```python
 import plotly.graph_objects as go
@@ -98,7 +98,7 @@ fig.update_layout(title='Mt Bruno Elevation', autosize=False,
 fig.show()
 ```
 #### Configure Surface Contour Levels
-This example shows how to slice the surface graph on the desired position for each of x, y and z axis. [contours.x.start](https://plot.ly/python/reference/#surface-contours-x-start) sets the starting contour level value, `end` sets the end of it, and `size` sets the step between each contour level. 
+This example shows how to slice the surface graph on the desired position for each of x, y and z axis. [contours.x.start](https://plotly.com/python/reference/#surface-contours-x-start) sets the starting contour level value, `end` sets the end of it, and `size` sets the step between each contour level. 
 
 ```python
 import plotly.graph_objects as go
@@ -163,22 +163,7 @@ fig = go.Figure(data=[
 fig.show()
 ```
 
-### Dash Example
-
-
-[Dash](https://plot.ly/products/dash/) is an Open Source Python library which can help you convert plotly figures into a reactive, web-based application. Below is a simple example of a dashboard created using Dash. Its [source code](https://github.com/plotly/simple-example-chart-apps/tree/master/dash-3dsurfaceplot) can easily be deployed to a PaaS.
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-3dsurfaceplot/", width="100%", height=950 ,frameBorder="0")
-```
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-3dsurfaceplot/code", width="100%", height=500 ,frameBorder="0")
-```
-
 #### Reference
 
 
-See https://plot.ly/python/reference/#surface for more information!
+See https://plotly.com/python/reference/#surface for more information!

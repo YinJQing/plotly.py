@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.1'
-      jupytext_version: 1.2.3
+      format_version: '1.2'
+      jupytext_version: 1.3.0
   kernelspec:
     display_name: Python 3
     language: python
@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: 3D Cone Plots
-    order: 13
+    order: 12
     page_type: u-guide
     permalink: python/cone-plot/
     redirect_from: python/3d-cone/
@@ -127,5 +127,4 @@ fig.show()
 ```
 
 #### Reference
-See https://plot.ly/python/reference/ for more information and chart attribute options!
-
+See https://plotly.com/python/reference/ for more information and chart attribute options!

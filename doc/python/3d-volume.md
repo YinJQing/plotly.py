@@ -5,8 +5,8 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.1'
-      jupytext_version: 1.2.3
+      format_version: '1.2'
+      jupytext_version: 1.3.0
   kernelspec:
     display_name: Python 3
     language: python
@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: 3D Volume Plots
-    order: 12
+    order: 11
     page_type: u-guide
     permalink: python/3d-volume-plots/
     thumbnail: thumbnail/3d-volume-plots.jpg
@@ -43,7 +43,7 @@ In the three examples below, note that the default colormap is different whether
 import plotly.graph_objects as go
 import numpy as np
 X, Y, Z = np.mgrid[-8:8:40j, -8:8:40j, -8:8:40j]
-values =    np.sin(X*Y*Z) / (X*Y*Z)
+values = np.sin(X*Y*Z) / (X*Y*Z)
 
 fig = go.Figure(data=go.Volume(
     x=X.flatten(),
@@ -190,7 +190,7 @@ fig = go.Figure(data=go.Volume(
     ))
 
 # Change camera view for a better view of the sides, XZ plane
-# (see https://plot.ly/python/v3/3d-camera-controls/)
+# (see https://plotly.com/python/v3/3d-camera-controls/)
 fig.update_layout(scene_camera = dict(
     up=dict(x=0, y=0, z=1),
     center=dict(x=0, y=0, z=0),
@@ -254,7 +254,7 @@ fig.show()
 ```
 
 #### Reference
-See https://plot.ly/python/reference/#volume for more information and chart attribute options!
+See https://plotly.com/python/reference/#volume for more information and chart attribute options!
 
 #### See also
 [3D isosurface documentation](/python/3d-isosurface-plots/)

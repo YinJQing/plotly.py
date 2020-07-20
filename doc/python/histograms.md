@@ -5,7 +5,7 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: "1.1"
+      format_version: '1.1'
       jupytext_version: 1.1.1
   kernelspec:
     display_name: Python 3
@@ -41,7 +41,7 @@ bar, go to the [Bar Chart tutorial](/python/bar-charts/).
 
 ## Histogram with Plotly Express
 
-[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on "tidy" data](/python/px-arguments/).
+[Plotly Express](/python/plotly-express/) is the easy-to-use, high-level interface to Plotly, which [operates on a variety of types of data](/python/px-arguments/) and produces [easy-to-style figures](/python/styling-plotly-express/).
 
 ```python
 import plotly.express as px
@@ -69,9 +69,26 @@ fig = px.histogram(df, x="total_bill", nbins=20)
 fig.show()
 ```
 
+#### Accessing the counts (y-axis) values
+
+JavaScript calculates the y-axis (count) values on the fly in the browser, so it's not accessible in the `fig`. You can manually calculate it using `np.histogram`.
+
+```python
+import plotly.express as px
+import numpy as np
+
+df = px.data.tips()
+# create the bins
+counts, bins = np.histogram(df.total_bill, bins=range(0, 60, 5))
+bins = 0.5 * (bins[:-1] + bins[1:])
+
+fig = px.bar(x=bins, y=counts, labels={'x':'total_bill', 'y':'count'})
+fig.show()
+```
+
 #### Type of normalization
 
-The default mode is to represent the count of samples in each bin. With the `histnorm` argument, it is also possible to represent the percentage or fraction of samples in each bin (`histnorm='percent'` or `probability`), or a density histogram (the sum of bars is equal to 100, `density`), or a probability density histogram (sum equal to 1, `probability density`).
+The default mode is to represent the count of samples in each bin. With the `histnorm` argument, it is also possible to represent the percentage or fraction of samples in each bin (`histnorm='percent'` or `probability`), or a density histogram (the sum of all bar areas equals the total number of sample points, `density`), or a probability density histogram (the sum of all bar areas equals 1, `probability density`).
 
 ```python
 import plotly.express as px
@@ -117,7 +134,7 @@ fig.show()
 
 #### Visualizing the distribution
 
-With the `marginal` keyword, a subplot is drawn alongside the histogram, visualizing the distribution. See [the distplot page](https://plot.ly/python/distplot/)for more examples of combined statistical representations.
+With the `marginal` keyword, a subplot is drawn alongside the histogram, visualizing the distribution. See [the distplot page](https://plotly.com/python/distplot/)for more examples of combined statistical representations.
 
 ```python
 import plotly.express as px
@@ -129,7 +146,7 @@ fig.show()
 
 ## Histograms with go.Histogram
 
-If Plotly Express does not provide a good starting point, it is also possible to use the more generic `go.Histogram` from `plotly.graph_objects`. All of the available histogram options are described in the histogram section of the reference page: https://plot.ly/python/reference#histogram.
+If Plotly Express does not provide a good starting point, it is also possible to use [the more generic `go.Histogram` class from `plotly.graph_objects`](/python/graph-objects/). All of the available histogram options are described in the histogram section of the reference page: https://plotly.com/python/reference#histogram.
 
 ### Basic Histogram
 
@@ -227,7 +244,7 @@ fig.add_trace(go.Histogram(
     x=x0,
     histnorm='percent',
     name='control', # name used in legend and hover labels
-    xbins=dict( # bins used for histogram
+    xbins=dict( # bins used for histogram
         start=-4.0,
         end=3.0,
         size=0.5
@@ -249,10 +266,10 @@ fig.add_trace(go.Histogram(
 ))
 
 fig.update_layout(
-    title_text='Sampled Results', # title of plot
+    title_text='Sampled Results', # title of plot
     xaxis_title_text='Value', # xaxis label
     yaxis_title_text='Count', # yaxis label
-    bargap=0.2, # gap between bars of adjacent location coordinates
+    bargap=0.2, # gap between bars of adjacent location coordinates
     bargroupgap=0.1 # gap between bars of the same location coordinates
 )
 
@@ -289,7 +306,7 @@ fig.show()
 
 ### Custom Binning
 
-For custom binning along x-axis, use the attribute [`nbinsx`](https://plot.ly/python/reference/#histogram-nbinsx). Please note that the autobin algorithm will choose a 'nice' round bin size that may result in somewhat fewer than `nbinsx` total bins. Alternatively, you can set the exact values for [`xbins`](https://plot.ly/python/reference/#histogram-xbins) along with `autobinx = False`.
+For custom binning along x-axis, use the attribute [`nbinsx`](https://plotly.com/python/reference/#histogram-nbinsx). Please note that the autobin algorithm will choose a 'nice' round bin size that may result in somewhat fewer than `nbinsx` total bins. Alternatively, you can set the exact values for [`xbins`](https://plotly.com/python/reference/#histogram-xbins) along with `autobinx = False`.
 
 ```python
 import plotly.graph_objects as go
@@ -321,7 +338,7 @@ trace5 = go.Histogram(x=x,
                       xbins=dict(
                       start='1969-11-15',
                       end='1972-03-31',
-                      size= 'M2'), # 2 months
+                      size= 'M2'), # 2 months
                       autobinx = False
                       )
 
@@ -352,7 +369,7 @@ fig2.show()
 
 ### Share bins between histograms
 
-In this example both histograms have a compatible bin settings using [bingroup](https://plot.ly/python/reference/#histogram-bingroup) attribute. Note that traces on the same subplot, and with the same `barmode` ("stack", "relative", "group") are forced into the same `bingroup`, however traces with `barmode = "overlay"` and on different axes (of the same axis type) can have compatible bin settings. Histogram and [histogram2d](https://plot.ly/python/2D-Histogram/) trace can share the same `bingroup`.
+In this example both histograms have a compatible bin settings using [bingroup](https://plotly.com/python/reference/#histogram-bingroup) attribute. Note that traces on the same subplot, and with the same `barmode` ("stack", "relative", "group") are forced into the same `bingroup`, however traces with `barmode = "overlay"` and on different axes (of the same axis type) can have compatible bin settings. Histogram and [histogram2d](https://plotly.com/python/2D-Histogram/) trace can share the same `bingroup`.
 
 ```python
 import plotly.graph_objects as go
@@ -373,22 +390,6 @@ fig.update_layout(
 fig.show()
 ```
 
-### Dash Example
-
-[Dash](https://plot.ly/products/dash/) is an Open Source Python library which can help you convert plotly figures into a reactive, web-based application. Below is a simple example of a dashboard created using Dash. Its [source code](https://github.com/plotly/simple-example-chart-apps/tree/master/dash-histogramplot) can easily be deployed to a PaaS.
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-histogramplot/", width="100%", height="650px", frameBorder="0")
-
-```
-
-```python
-from IPython.display import IFrame
-IFrame(src= "https://dash-simple-apps.plotly.host/dash-histogramplot/code", width="100%", height=500, frameBorder="0")
-
-```
-
 #### Reference
 
-See https://plot.ly/python/reference/#histogram for more information and chart attribute options!
+See https://plotly.com/python/reference/#histogram for more information and chart attribute options!

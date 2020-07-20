@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.2'
-      jupytext_version: 1.3.0
+      jupytext_version: 1.4.2
   kernelspec:
     display_name: Python 3
     language: python
@@ -74,7 +74,7 @@ fig = px.imshow(img)
 fig.show()
 ```
 
-### Display single-channel 2D image as grayscale
+### Display single-channel 2D data as a heatmap
 
 For a 2D image, `px.imshow` uses a colorscale to map scalar data to colors. The default colorscale is the one of the active template (see [the tutorial on templates](/python/templates/)).
 
@@ -88,6 +88,17 @@ fig.show()
 
 ### Choose the colorscale to display a single-channel image
 
+You can customize the [continuous color scale](/python/colorscales/) just like with any other Plotly Express function:
+
+```python
+import plotly.express as px
+import numpy as np
+img = np.arange(100).reshape((10, 10))
+fig = px.imshow(img, color_continuous_scale='Viridis')
+fig.show()
+```
+
+You can use this to make the image grayscale as well:
 
 ```python
 import plotly.express as px
@@ -97,9 +108,9 @@ fig = px.imshow(img, color_continuous_scale='gray')
 fig.show()
 ```
 
-### Hiding the colorbar when displaying a single-channel image
+### Hiding the colorbar and axis labels
 
-See [the tutorial on coloraxis](/python/colorscales/#share-color-axis) for more details on coloraxis.
+See the [continuous color](/python/colorscales/) and [cartesian axes](/python/axes/) pages for more details.
 
 ```python
 import plotly.express as px
@@ -107,6 +118,50 @@ from skimage import data
 img = data.camera()
 fig = px.imshow(img, color_continuous_scale='gray')
 fig.update_layout(coloraxis_showscale=False)
+fig.update_xaxes(showticklabels=False)
+fig.update_yaxes(showticklabels=False)
+fig.show()
+```
+
+### Customizing the axes and labels on a single-channel image
+
+You can use the `x`, `y` and `labels` arguments to customize the display of a heatmap, and use `.update_xaxes()` to move the x axis tick labels to the top:
+
+```python
+import plotly.express as px
+data=[[1, 25, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, 5, 20]]
+fig = px.imshow(data,
+                labels=dict(x="Day of Week", y="Time of Day", color="Productivity"),
+                x=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                y=['Morning', 'Afternoon', 'Evening']
+               )
+fig.update_xaxes(side="top")
+fig.show()
+```
+
+### Display an xarray image with px.imshow
+
+[xarrays](http://xarray.pydata.org/en/stable/) are labeled arrays (with labeled axes and coordinates). If you pass an xarray image to `px.imshow`, its axes labels and coordinates will be used for axis titles. If you don't want this behavior, you can pass `img.values` which is a NumPy array if `img` is an xarray. Alternatively, you can override axis titles hover labels and colorbar title using the `labels` attribute, as above.
+
+```python
+import plotly.express as px
+import xarray as xr
+# Load xarray from dataset included in the xarray tutorial
+airtemps = xr.tutorial.open_dataset('air_temperature').air.sel(lon=250.0)
+fig = px.imshow(airtemps.T, color_continuous_scale='RdBu_r', origin='lower')
+fig.show()
+```
+
+### Display an xarray image with square pixels
+
+For xarrays, by default `px.imshow` does not constrain pixels to be square, since axes often correspond to different physical quantities (e.g. time and space), contrary to a plain camera image where pixels are square (most of the time). If you want to impose square pixels, set the parameter `aspect` to "equal" as below.
+
+```python
+import plotly.express as px
+import xarray as xr
+airtemps = xr.tutorial.open_dataset('air_temperature').air.isel(time=500)
+colorbar_title = airtemps.attrs['var_desc'] + '<br>(%s)'%airtemps.attrs['units']
+fig = px.imshow(airtemps, color_continuous_scale='RdBu_r', aspect='equal')
 fig.show()
 ```
 
@@ -141,7 +196,7 @@ img = data.astronaut()
 # Increase contrast by clipping the data range between 50 and 200
 fig = px.imshow(img, zmin=50, zmax=200)
 # We customize the hovertemplate to show both the data and the color values
-# See https://plot.ly/python/hover-text-and-formatting/#customize-tooltip-text-with-a-hovertemplate
+# See https://plotly.com/python/hover-text-and-formatting/#customize-tooltip-text-with-a-hovertemplate
 fig.update_traces(hovertemplate="x: %{x} <br> y: %{y} <br> z: %{z} <br> color: %{color}")
 fig.show()
 ```
@@ -198,6 +253,59 @@ fig.update_layout(height=400)
 fig.show()
 ```
 
-#### Reference
-See https://plot.ly/python/reference/#image for more information and chart attribute options!
+### imshow and datashader
 
+Arrays of rasterized values build by datashader can be visualized using
+imshow. See the [plotly and datashader tutorial](/python/datashader/) for
+examples on how to use plotly and datashader.
+
+
+### Annotating image traces with shapes
+
+_introduced in plotly 4.7_
+
+It can be useful to add shapes to an image trace, for highlighting an object, drawing bounding boxes as part of a machine learning training set, or identifying seeds for a segmentation algorithm. 
+
+In order to enable shape drawing, you need to
+- define a dragmode corresponding to a drawing tool (`'drawline'`,`'drawopenpath'`, `'drawclosedpath'`, `'drawcircle'`, or `'drawrect'`)
+- add modebar buttons corresponding to the drawing tools you wish to use.
+
+The style of new shapes is specified by the `newshape` layout attribute. Shapes can be selected and modified after they have been drawn. More details and examples are given in the [tutorial on shapes](/python/shapes#drawing-shapes-on-cartesian-plots).
+
+Drawing or modifying a shape triggers a `relayout` event, which [can be captured by a callback inside a Dash application](https://dash.plotly.com/interactive-graphing). 
+
+```python
+import plotly.express as px
+from skimage import data
+img = data.chelsea()
+fig = px.imshow(img)
+fig.add_annotation(
+    x=0.5,
+    y=0.9,
+    text="Drag and draw annotations",
+    xref="paper",
+    yref="paper",
+    showarrow=False,
+    font_size=20, font_color='cyan')
+# Shape defined programatically
+fig.add_shape(
+    type='rect',
+    x0=230, x1=290, y0=230, y1=280,
+    xref='x', yref='y',
+    line_color='cyan'
+)
+# Define dragmode, newshape parameters, amd add modebar buttons
+fig.update_layout(
+    dragmode='drawrect',
+    newshape=dict(line_color='cyan'))
+fig.show(config={'modeBarButtonsToAdd':['drawline',
+                                        'drawopenpath',
+                                        'drawclosedpath',
+                                        'drawcircle',
+                                        'drawrect',
+                                        'eraseshape'
+                                       ]})
+```
+
+#### Reference
+See https://plotly.com/python/reference/#image for more information and chart attribute options!

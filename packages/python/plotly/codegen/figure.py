@@ -69,12 +69,6 @@ def build_figure_py(
     # ### Import base class ###
     buffer.write(f"from plotly.{base_package} import {base_classname}\n")
 
-    # ### Import trace graph_obj classes / layout ###
-    trace_types_csv = ", ".join(
-        [n.name_datatype_class for n in trace_nodes] + ["layout as _layout"]
-    )
-    buffer.write(f"from plotly.graph_objs import ({trace_types_csv})\n")
-
     # Write class definition
     # ----------------------
     buffer.write(
@@ -94,7 +88,7 @@ class {fig_classname}({base_classname}):\n"""
     def __init__(self, data=None, layout=None,
                  frames=None, skip_invalid=False, **kwargs):
         \"\"\"
-        Create a new {fig_classname} instance
+        Create a new :class:{fig_classname} instance
         
         Parameters
         ----------
@@ -192,6 +186,7 @@ class {fig_classname}({base_classname}):\n"""
         # #### Function body ####
         buffer.write(
             f"""
+        from plotly.graph_objs import {trace_node.name_datatype_class}
         new_trace = {trace_node.name_datatype_class}(
         """
         )
@@ -473,7 +468,7 @@ class {fig_classname}({base_classname}):\n"""
 
     def update_{method_prefix}{plural_name}(
         self,
-        patch,
+        patch=None,
         selector=None,
         row=None,
         col=None,
@@ -571,6 +566,7 @@ class {fig_classname}({base_classname}):\n"""
         # #### Function body ####
         buffer.write(
             f"""
+        from plotly.graph_objs import layout as _layout
         new_obj = _layout.{node.name_datatype_class}(arg,
             """
         )

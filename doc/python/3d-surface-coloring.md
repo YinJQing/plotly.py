@@ -27,7 +27,7 @@ jupyter:
     language: python
     layout: base
     name: 3D Surface Coloring
-    order: 9
+    order: 8
     permalink: python/3d-surface-coloring/
     thumbnail: thumbnail/3d-surface-color.jpg
 ---
@@ -60,5 +60,4 @@ fig.show()
 #### Reference
 
 
-See https://plot.ly/python/reference/#surface-surfacecolor for more information!
-
+See https://plotly.com/python/reference/#surface-surfacecolor for more information!

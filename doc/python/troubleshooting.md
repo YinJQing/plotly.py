@@ -37,7 +37,7 @@ jupyter:
 <!-- #region -->
 ### Version Problems
 
-In order to follow the examples in this documentation, you should have the latest version of `plotly` installed (4.x), as detailed in the [Getting Started](/python/getting-started) guide. This documentation (under https://plot.ly/python) is incompatible with `plotly` version 3.x, for which the documentation is available under https://plot.ly/python/v3.
+In order to follow the examples in this documentation, you should have the latest version of `plotly` installed (4.x), as detailed in the [Getting Started](/python/getting-started) guide. This documentation (under https://plotly.com/python) is incompatible with `plotly` version 3.x, for which the documentation is available under https://plotly.com/python/v3.
 
 ### Import Problems
 
@@ -50,14 +50,18 @@ $ pip remove plotly
 
 ### Jupyter Notebook Classic Problems
 
-The classic Jupyter Notebook (i.e. launched with `jupyter notebook`) sometimes suffers from a problem whereby if you close the window and reopen it, your plots render as blank spaces. The easiest solution is to run "Restart & Clear Output" from the Kernel menu and rerun your notebook.
+The classic Jupyter Notebook (i.e. launched with `jupyter notebook`) sometimes suffers from a problem whereby if you close the window and reopen it, your plots render as blank spaces.
 
-If rerunning your notebook is prohibitive, you may safely run the following code in a Notebook (not in JupyterLab!) at any time and it should restore your figures:
+The easiest solution is to force the `notebook` renderer to reload by calling `fig.show("notebook")` instead of just `fig.show()`.
+
+If this problem is recurrent, you may safely run the following code in a Notebook (not in JupyterLab!) at any time and it should restore your figures (for example, you may put it at the top of your notebook for easy access):
 
 ```python
 import plotly.io as pio
 pio.renderers.default='notebook'
 ```
+
+As a last resort, you can "Restart & Clear Output" from the Kernel menu and rerun your notebook.
 
 ### JupyterLab Problems
 
@@ -71,14 +75,41 @@ To list your current extensions, run the following command in a terminal shell:
 $ jupyter labextension list
 ```
 
-To uninstall your `plotly` extensions, run the following commands in a terminal shell before reinstalling them by following the instructions in the [Getting Started guide](/python/getting-started):
+To uninstall your Plotly extensions, run the following commands in a terminal shell before reinstalling them by following the instructions in the [Getting Started guide](/python/getting-started):
 
 ```bash
 $ jupyter labextension uninstall jupyterlab-plotly
 $ jupyter labextension uninstall plotlywidget
 ```
+
+If you run into "out of memory" problems while installing the extensions, try running these commands before running `jupyter labextension install`...
+
+```bash
+# Avoid "JavaScript heap out of memory" errors during extension installation
+# (OS X/Linux)
+export NODE_OPTIONS=--max-old-space-size=4096
+# (Windows)
+set NODE_OPTIONS=--max-old-space-size=4096
+```
+
+...and these commands afterwards.
+
+```bash
+# Unset NODE_OPTIONS environment variable
+# (OS X/Linux)
+unset NODE_OPTIONS
+# (Windows)
+set NODE_OPTIONS=
+```
+
 <!-- #endregion -->
 
-```python
 
-```
+### Orca Problems
+
+> Note: as of `plotly` version 4.9, we recommend using [`kaleido`](https://github.com/plotly/Kaleido)
+> instead of Orca for [static image export](/python/static-image-export/)
+
+If you get an error message stating that the `orca` executable that was found is not valid, this may be because another executable with the same name was found on your system. Please specify the complete path to the Plotly-Orca binary that you downloaded (for instance in the Miniconda folder) with the following command:
+
+`plotly.io.orca.config.executable = '/home/your_name/miniconda3/bin/orca'`

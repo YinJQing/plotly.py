@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import plotly.graph_objs as go
 
-if sys.version_info.major == 3 and sys.version_info.minor >= 3:
+if sys.version_info >= (3, 3):
     from unittest.mock import MagicMock
 else:
     from mock import MagicMock
@@ -63,3 +63,33 @@ class TestAddTracesMessage(TestCase):
                 {"type": "histogram2dcontour", "line": {"color": "cyan"}},
             ]
         )
+
+
+class TestAddTracesRowsColsDataTypes(TestCase):
+    def test_add_traces_with_iterable(self):
+        import plotly.express as px
+
+        df = px.data.tips()
+        fig = px.scatter(df, x="total_bill", y="tip", color="day")
+        from plotly.subplots import make_subplots
+
+        fig2 = make_subplots(1, 2)
+        fig2.add_traces(fig.data, rows=[1,] * len(fig.data), cols=[1,] * len(fig.data))
+
+        expected_data_length = 4
+
+        self.assertEqual(expected_data_length, len(fig2.data))
+
+    def test_add_traces_with_integers(self):
+        import plotly.express as px
+
+        df = px.data.tips()
+        fig = px.scatter(df, x="total_bill", y="tip", color="day")
+        from plotly.subplots import make_subplots
+
+        fig2 = make_subplots(1, 2)
+        fig2.add_traces(fig.data, rows=1, cols=2)
+
+        expected_data_length = 4
+
+        self.assertEqual(expected_data_length, len(fig2.data))
